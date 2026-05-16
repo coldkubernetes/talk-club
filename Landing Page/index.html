@@ -964,7 +964,7 @@
         <p class="embed-note">Ако виждаш празно поле, ad blocker може да спира Eventbrite.</p>
         <div id="eventbrite-widget-container-1082219510689"></div>
         <div class="link-row">
-          <a class="btn primary" href="http://talk-club.eventbrite.com/" target="_blank" rel="noopener noreferrer">Отвори в Eventbrite</a>
+          <a class="btn primary" href="https://talk-club.eventbrite.com/" target="_blank" rel="noopener noreferrer">Отвори в Eventbrite</a>
           <a class="btn ghost" href="#top">Нагоре</a>
         </div>
       </div>
@@ -1031,7 +1031,7 @@
 
   <script src="https://www.eventbrite.com/static/widgets/eb_widgets.js"></script>
 
-  <script>
+  <script type="text/javascript">
     document.getElementById('year').textContent = new Date().getFullYear();
 
     const EMO_WORDS = [
@@ -1084,7 +1084,6 @@
       const luminance = (0.2126*rgb[0] + 0.7152*rgb[1] + 0.0722*rgb[2]) / 255;
       moodResult.style.color = luminance > 0.62 ? "#151515" : "#ffffff";
       moodResult.querySelector("small").style.color = luminance > 0.62 ? "rgba(0,0,0,.72)" : "rgba(255,255,255,.90)";
-      moodResult.querySelector(".small").style.color = luminance > 0.62 ? "rgba(0,0,0,.68)" : "rgba(255,255,255,.88)";
     }
 
     pleasantness.addEventListener("input", updateMood);
@@ -1099,6 +1098,9 @@
         eventId: '1082219510689',
         iframeContainerId: 'eventbrite-widget-container-1082219510689',
         iframeContainerHeight: 625,
+        themeSettings: {
+          brandColor: '#b85f32'
+        },
         onOrderComplete: exampleCallback
       });
     }

@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Капитаните — Talk Club</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#11110f" />
+
+  <style>
+    :root{
+      color-scheme: dark;
+      --bg: #11110f;
+      --bg-2: #181815;
+      --panel: #20201c;
+      --panel-2: #292822;
+      --text: #f1eee6;
+      --muted: #aba69a;
+      --soft: #d5cec0;
+      --line: rgba(241,238,230,.14);
+      --line-strong: rgba(241,238,230,.28);
+      --rust: #b85f32;
+      --brass: #d8a451;
+      --olive: #76805a;
+      --steel: #8b9699;
+      --black: #090908;
+      --max: 1180px;
+      --radius: 8px;
+      --shadow: 0 22px 80px rgba(0,0,0,.34);
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color:var(--text);
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255,255,255,.018) 1px, transparent 1px),
+        radial-gradient(900px 520px at 82% 8%, rgba(184,95,50,.20), transparent 60%),
+        radial-gradient(700px 420px at 5% 45%, rgba(118,128,90,.14), transparent 64%),
+        var(--bg);
+      background-size: 48px 48px, 48px 48px, auto, auto, auto;
+      line-height:1.55;
+    }
+
+    body:before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(135deg, transparent 0 48%, rgba(216,164,81,.08) 48% 49%, transparent 49% 100%),
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,.07), transparent 34%);
+      opacity:.55;
+      mix-blend-mode:screen;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ color:var(--brass); }
+    strong{ color:var(--text); }
+
+    .wrap{
+      width:min(var(--max), calc(100% - 40px));
+      margin:0 auto;
+    }
+
+    /* Topbar */
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(17,17,15,.82);
+      border-bottom:1px solid var(--line);
+      backdrop-filter: blur(16px);
+    }
+    .topbar-inner{
+      width:min(var(--max), calc(100% - 40px));
+      min-height:72px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:900;
+      letter-spacing:0;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+    .brand-mark{
+      width:34px;
+      height:34px;
+      display:grid;
+      place-items:center;
+      border:1px solid var(--line-strong);
+      background:linear-gradient(145deg, #262520, #11110f);
+      box-shadow:inset 0 0 0 4px rgba(255,255,255,.025);
+    }
+    .brand-mark:before{
+      content:"TC";
+      color:var(--brass);
+      font-size:11px;
+      font-weight:1000;
+      letter-spacing:0;
+    }
+
+    .btn{
+      min-height:44px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:9px;
+      padding:11px 16px;
+      border:1px solid var(--line-strong);
+      border-radius:6px;
+      background:#1c1c18;
+      color:var(--text);
+      font-size:14px;
+      font-weight:900;
+      letter-spacing:0;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .btn:hover{
+      color:var(--text);
+      background:#25241f;
+      border-color:rgba(216,164,81,.54);
+    }
+    .btn.ghost{
+      background:transparent;
+      border-color:var(--line);
+    }
+    .btn.primary{
+      color:#16120d;
+      background:linear-gradient(135deg, var(--brass), #c5723f);
+      border-color:rgba(255,255,255,.08);
+      box-shadow:0 14px 42px rgba(184,95,50,.28);
+    }
+    .btn.primary:hover{ filter:brightness(1.05); }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      color:var(--brass);
+      font-size:12px;
+      font-weight:950;
+      letter-spacing:0;
+      text-transform:uppercase;
+    }
+    .eyebrow:before{
+      content:"";
+      width:34px;
+      height:1px;
+      background:var(--brass);
+    }
+
+    /* Page hero */
+    .page-hero{
+      padding:80px 0 60px;
+      border-bottom:1px solid var(--line);
+    }
+    .page-hero h1{
+      margin:16px 0 18px;
+      font-size:72px;
+      line-height:.92;
+      letter-spacing:0;
+      text-transform:uppercase;
+      max-width:700px;
+    }
+    .page-hero .lead{
+      margin:0;
+      color:var(--soft);
+      font-size:19px;
+      max-width:600px;
+    }
+
+    /* Sections */
+    section{ padding:60px 0; }
+    .section-head{
+      margin-bottom:32px;
+    }
+    .section-title{
+      margin:10px 0 0;
+      font-size:38px;
+      line-height:1;
+      letter-spacing:0;
+      text-transform:uppercase;
+    }
+    .section-sub{
+      margin:10px 0 0;
+      color:var(--muted);
+      font-size:16px;
+      max-width:560px;
+    }
+
+    /* Featured captain cards (2-column) */
+    .captains-featured{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+    .captain-card{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+      overflow:hidden;
+    }
+    .captain-card.draft{
+      border-style:dashed;
+      border-color:var(--line-strong);
+    }
+    .captain-photo{
+      aspect-ratio:4/5;
+      background:var(--panel);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:0;
+      border-bottom:1px solid var(--line);
+    }
+    .captain-photo svg{
+      opacity:.38;
+    }
+    .captain-photo span{
+      opacity:.55;
+    }
+    .captain-info{
+      padding:24px;
+    }
+    .captain-role{
+      margin-bottom:8px;
+    }
+    .captain-name{
+      margin:0 0 12px;
+      font-size:26px;
+      line-height:1.1;
+      text-transform:uppercase;
+    }
+    .captain-bio{
+      margin:0;
+      color:var(--soft);
+      font-size:15px;
+    }
+    .captain-bio.placeholder{
+      color:var(--muted);
+      font-style:italic;
+      border:1px dashed rgba(241,238,230,.14);
+      border-radius:4px;
+      padding:12px;
+      font-size:13px;
+    }
+
+    /* Visiting captains (smaller cards) */
+    .captains-grid{
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:14px;
+    }
+    .captain-mini{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:var(--panel);
+      overflow:hidden;
+    }
+    .captain-mini.draft{
+      border-style:dashed;
+      border-color:var(--line-strong);
+    }
+    .captain-mini-photo{
+      aspect-ratio:1;
+      background:var(--panel-2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--muted);
+      border-bottom:1px solid var(--line);
+    }
+    .captain-mini-photo svg{ opacity:.30; }
+    .captain-mini-info{
+      padding:14px 16px;
+    }
+    .captain-mini-role{
+      color:var(--brass);
+      font-size:11px;
+      font-weight:950;
+      text-transform:uppercase;
+      letter-spacing:0;
+      margin-bottom:4px;
+    }
+    .captain-mini-name{
+      margin:0 0 6px;
+      font-size:15px;
+      font-weight:900;
+      text-transform:uppercase;
+      line-height:1.1;
+    }
+    .captain-mini-note{
+      margin:0;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    /* Future captains note */
+    .future-note{
+      margin-top:20px;
+      padding:20px 24px;
+      border:1px dashed rgba(216,164,81,.28);
+      border-radius:var(--radius);
+      background:rgba(216,164,81,.04);
+      color:var(--muted);
+      font-size:14px;
+    }
+    .future-note strong{
+      color:var(--brass);
+      display:block;
+      margin-bottom:4px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:0;
+    }
+
+    /* Footer */
+    footer{
+      padding:34px 0 48px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .footer-line{
+      border-top:1px solid var(--line);
+      padding-top:18px;
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .footer-links{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    :focus-visible{
+      outline:3px solid rgba(216,164,81,.66);
+      outline-offset:3px;
+    }
+
+    @media (max-width: 980px){
+      .page-hero h1{ font-size:54px; }
+      .captains-featured{ grid-template-columns:1fr; max-width:520px; }
+      .captains-grid{ grid-template-columns:repeat(2, 1fr); }
+      .section-title{ font-size:30px; }
+    }
+
+    @media (max-width: 680px){
+      .topbar-inner{ width:min(100% - 24px, var(--max)); min-height:64px; }
+      .wrap{ width:min(100% - 24px, var(--max)); }
+      .page-hero{ padding:60px 0 40px; }
+      .page-hero h1{ font-size:38px; }
+      .page-hero .lead{ font-size:17px; }
+      .captains-grid{ grid-template-columns:1fr 1fr; }
+      section{ padding:42px 0; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar" role="banner">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html" aria-label="Talk Club начало">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Talk Club</span>
+      </a>
+      <a class="btn ghost" href="index.html">← Обратно към сайта</a>
+    </div>
+  </div>
+
+  <main>
+    <header class="page-hero wrap">
+      <div class="eyebrow">Хората</div>
+      <h1>Капитаните.</h1>
+      <p class="lead">
+        Капитанът е не водещ, а пазач на рамката. Той слуша заедно с групата, пази правилата и държи пространството безопасно за всеки.
+      </p>
+    </header>
+
+    <section class="wrap" aria-label="Основни капитани">
+      <div class="section-head">
+        <div class="eyebrow">Основни капитани</div>
+        <h2 class="section-title">Водещи на клуба.</h2>
+        <p class="section-sub">Тези капитани водят редовните срещи на Talk Club в София.</p>
+      </div>
+
+      <div class="captains-featured">
+        <article class="captain-card draft">
+          <div class="captain-photo">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="18" r="9" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M5 43c0-10.5 8.5-19 19-19s19 8.5 19 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span>Снимка скоро</span>
+          </div>
+          <div class="captain-info">
+            <div class="captain-role eyebrow">Основател &amp; Капитан</div>
+            <h2 class="captain-name">[Вашето Име]</h2>
+            <p class="captain-bio placeholder">[Добавете кратка биография — кой сте, какво ви свързва с темата за мъжкото ментално здраве и защо сте основали Talk Club.]</p>
+          </div>
+        </article>
+
+        <article class="captain-card draft">
+          <div class="captain-photo">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="18" r="9" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M5 43c0-10.5 8.5-19 19-19s19 8.5 19 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span>Снимка скоро</span>
+          </div>
+          <div class="captain-info">
+            <div class="captain-role eyebrow">Капитан</div>
+            <h2 class="captain-name">[Име на Капитана]</h2>
+            <p class="captain-bio placeholder">[Добавете кратка биография за втория основен капитан — кой е, какво носи в клуба и кога води срещите.]</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap" aria-label="Капитани-гости">
+      <div class="section-head">
+        <div class="eyebrow">Капитани-гости</div>
+        <h2 class="section-title">Разширена мрежа.</h2>
+        <p class="section-sub">Капитани, които периодично водят срещи или са преминали обучение в Talk Club.</p>
+      </div>
+
+      <div class="captains-grid">
+        <article class="captain-mini draft">
+          <div class="captain-mini-photo">
+            <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="18" r="9" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M5 43c0-10.5 8.5-19 19-19s19 8.5 19 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="captain-mini-info">
+            <div class="captain-mini-role">Капитан-гост</div>
+            <h3 class="captain-mini-name">[Име]</h3>
+            <p class="captain-mini-note">[Кратка бележка]</p>
+          </div>
+        </article>
+
+        <article class="captain-mini draft">
+          <div class="captain-mini-photo">
+            <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="18" r="9" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M5 43c0-10.5 8.5-19 19-19s19 8.5 19 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="captain-mini-info">
+            <div class="captain-mini-role">Капитан-гост</div>
+            <h3 class="captain-mini-name">[Име]</h3>
+            <p class="captain-mini-note">[Кратка бележка]</p>
+          </div>
+        </article>
+
+        <article class="captain-mini draft">
+          <div class="captain-mini-photo">
+            <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="18" r="9" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M5 43c0-10.5 8.5-19 19-19s19 8.5 19 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="captain-mini-info">
+            <div class="captain-mini-role">Капитан-гост</div>
+            <h3 class="captain-mini-name">[Име]</h3>
+            <p class="captain-mini-note">[Кратка бележка]</p>
+          </div>
+        </article>
+
+        <article class="captain-mini draft">
+          <div class="captain-mini-photo">
+            <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="18" r="9" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M5 43c0-10.5 8.5-19 19-19s19 8.5 19 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="captain-mini-info">
+            <div class="captain-mini-role">Капитан-гост</div>
+            <h3 class="captain-mini-name">[Име]</h3>
+            <p class="captain-mini-note">[Кратка бележка]</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="future-note">
+        <strong>Предстои</strong>
+        Нова вълна обучени капитани се очаква скоро. Ако водиш собствен клуб, свържи се с нас.
+      </div>
+    </section>
+
+    <footer class="wrap" aria-label="Футър">
+      <div class="footer-line">
+        <div>© <span id="year"></span> Talk Club</div>
+        <div class="footer-links">
+          <a href="index.html">← Talk Club</a>
+          <a href="index.html#reserve">Запази място</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

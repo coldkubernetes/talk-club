@@ -178,7 +178,9 @@
       margin:0;
       color:var(--soft);
       font-size:19px;
-      max-width:600px;
+    }
+    .page-hero .lead + .lead{
+      margin-top:16px;
     }
 
     /* Sections */
@@ -203,7 +205,7 @@
     /* Featured captain cards (2-column) */
     .captains-featured{
       display:grid;
-      grid-template-columns:1fr 1fr;
+      grid-template-columns:repeat(2, minmax(0, 340px));
       gap:20px;
     }
     .captain-card{
@@ -217,7 +219,7 @@
       border-color:var(--line-strong);
     }
     .captain-photo{
-      aspect-ratio:4/5;
+      aspect-ratio:2/3;
       background:var(--panel);
       display:flex;
       flex-direction:column;
@@ -230,6 +232,14 @@
       text-transform:uppercase;
       letter-spacing:0;
       border-bottom:1px solid var(--line);
+      overflow:hidden;
+    }
+    .captain-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:top center;
+      display:block;
     }
     .captain-photo svg{
       opacity:.38;
@@ -384,7 +394,10 @@
         <span class="brand-mark" aria-hidden="true"></span>
         <span>Talk Club</span>
       </a>
-      <a class="btn ghost" href="index.html">← Обратно към сайта</a>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <a class="btn ghost" href="index.html">← Обратно към сайта</a>
+        <a class="btn primary" href="index.html#reserve">Запази място</a>
+      </div>
     </div>
   </div>
 
@@ -393,7 +406,10 @@
       <div class="eyebrow">Хората</div>
       <h1>Капитаните.</h1>
       <p class="lead">
-        Капитанът е не водещ, а пазач на рамката. Той слуша заедно с групата, пази правилата и държи пространството безопасно за всеки.
+        Talk club групата е група за разговор и изслушване, водена от доброволци, които се наричат капитани. Капитан може да бъде всеки мъж над 18 години, който иска да води и фасилитира група за разговори в своята общност.
+      </p>
+      <p class="lead">
+        Приветстваме всички мъже, които искат да направят крачка напред и да водят група. Подкрепяме ги да станат капитани, като им помагаме да разберат модела на Talk Club и да създадат свой клуб чрез специални обучения за капитани.
       </p>
     </header>
 
@@ -405,33 +421,25 @@
       </div>
 
       <div class="captains-featured">
-        <article class="captain-card draft">
+        <article class="captain-card">
           <div class="captain-photo">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="24" cy="18" r="9" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M5 43c0-10.5 8.5-19 19-19s19 8.5 19 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-            <span>Снимка скоро</span>
+            <img src="../Media/PavelIvanov.jpeg" alt="Павел Иванов">
           </div>
           <div class="captain-info">
             <div class="captain-role eyebrow">Основател &amp; Капитан</div>
-            <h2 class="captain-name">[Вашето Име]</h2>
-            <p class="captain-bio placeholder">[Добавете кратка биография — кой сте, какво ви свързва с темата за мъжкото ментално здраве и защо сте основали Talk Club.]</p>
+            <h2 class="captain-name">Павел Иванов</h2>
+            <p class="captain-bio">Павел Иванов е основател и водещ на Talk Club. В клуба той носи структура, внимание и спокойна фасилитация — така че трудните теми да звучат по-нормално, а мъжете да имат място, в което наистина да говорят.</p>
           </div>
         </article>
 
-        <article class="captain-card draft">
+        <article class="captain-card">
           <div class="captain-photo">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="24" cy="18" r="9" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M5 43c0-10.5 8.5-19 19-19s19 8.5 19 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-            <span>Снимка скоро</span>
+            <img src="../Media/DimitarKrastev.jpg" alt="Димитър Кръстев">
           </div>
           <div class="captain-info">
             <div class="captain-role eyebrow">Капитан</div>
-            <h2 class="captain-name">[Име на Капитана]</h2>
-            <p class="captain-bio placeholder">[Добавете кратка биография за втория основен капитан — кой е, какво носи в клуба и кога води срещите.]</p>
+            <h2 class="captain-name">Димитър Кръстев</h2>
+            <p class="captain-bio">Димитър Кръстев носи в Talk Club спокойствие, зрялост и човешка топлина. Като баща, съпруг и приятел, той вярва в простата сила на споделянето — защото понякога разговорът е първата крачка към повече лекота.</p>
           </div>
         </article>
       </div>

@@ -272,6 +272,28 @@
       padding:12px;
       font-size:13px;
     }
+    .captain-links{
+      display:flex;
+      gap:8px;
+      margin-top:16px;
+    }
+    .captain-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:32px;
+      height:32px;
+      border:1px solid var(--line);
+      border-radius:6px;
+      color:var(--muted);
+      flex-shrink:0;
+      transition:color .14s, border-color .14s, background .14s;
+    }
+    .captain-link:hover{
+      color:var(--brass);
+      border-color:rgba(216,164,81,.4);
+      background:rgba(216,164,81,.06);
+    }
 
     /* Visiting captains (smaller cards) */
     .captains-grid{
@@ -422,7 +444,7 @@
       </div>
 
       <div class="captains-featured">
-        <article class="captain-card">
+        <article class="captain-card" data-captain="pavel">
           <div class="captain-photo">
             <img src="PavelIvanov.jpeg" alt="Павел Иванов">
           </div>
@@ -433,7 +455,7 @@
           </div>
         </article>
 
-        <article class="captain-card">
+        <article class="captain-card" data-captain="dimitar">
           <div class="captain-photo">
             <img src="DimitarKrastev.jpg" alt="Димитър Кръстев">
           </div>
@@ -530,6 +552,81 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ── Captain social links config ────────────────────────────────────────────
+    // To add a link: set `url` to the real address and `visible: true`.
+    // To hide a link without removing it: set `visible: false`.
+    // Icons won't render if url is empty or visible is false.
+    const CAPTAINS = {
+      pavel: {
+        socialLinks: [
+          { type: 'linkedin',  url: 'https://www.linkedin.com/in/pastiv/',  visible: true,  label: 'LinkedIn на Павел Иванов' },
+          { type: 'instagram', url: '',  visible: false, label: 'Instagram на Павел Иванов' },
+          { type: 'facebook',  url: '',  visible: false, label: 'Facebook на Павел Иванов' },
+          { type: 'email',     url: '',  visible: false, label: 'Имейл на Павел Иванов' },
+        ]
+      },
+      dimitar: {
+        socialLinks: [
+          { type: 'linkedin',  url: '',  visible: true,  label: 'LinkedIn на Димитър Кръстев' },
+          { type: 'instagram', url: '',  visible: false, label: 'Instagram на Димитър Кръстев' },
+          { type: 'facebook',  url: '',  visible: false, label: 'Facebook на Димитър Кръстев' },
+          { type: 'email',     url: '',  visible: false, label: 'Имейл на Димитър Кръстев' },
+        ]
+      }
+    };
+
+    const ICONS = {
+      linkedin: `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+        <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+      </svg>`,
+      instagram: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+      </svg>`,
+      facebook: `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+      </svg>`,
+      email: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>`,
+    };
+
+    function renderSocialLinks() {
+      document.querySelectorAll('[data-captain]').forEach(card => {
+        const id = card.dataset.captain;
+        const data = CAPTAINS[id];
+        if (!data) return;
+
+        const active = data.socialLinks.filter(l => l.visible && l.url);
+        if (!active.length) return;
+
+        const nav = document.createElement('nav');
+        nav.className = 'captain-links';
+        nav.setAttribute('aria-label', 'Социални мрежи');
+
+        active.forEach(link => {
+          const href = link.type === 'email' ? 'mailto:' + link.url : link.url;
+          const a = document.createElement('a');
+          a.className = 'captain-link';
+          a.href = href;
+          a.setAttribute('aria-label', link.label);
+          if (link.type !== 'email') {
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+          }
+          a.innerHTML = ICONS[link.type] || '';
+          nav.appendChild(a);
+        });
+
+        card.querySelector('.captain-info').appendChild(nav);
+      });
+    }
+
+    renderSocialLinks();
   </script>
 </body>
 </html>

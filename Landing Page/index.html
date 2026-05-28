@@ -714,6 +714,87 @@
       backdrop-filter:blur(16px);
     }
 
+    .hamburger{
+      display:none;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      width:44px;
+      height:44px;
+      background:transparent;
+      border:1px solid var(--line-strong);
+      border-radius:6px;
+      cursor:pointer;
+      padding:0;
+      gap:5px;
+      flex-shrink:0;
+    }
+    .hamburger span{
+      display:block;
+      width:20px;
+      height:2px;
+      background:var(--text);
+      border-radius:2px;
+      transition:transform .22s ease, opacity .18s ease;
+      transform-origin:center;
+    }
+    .hamburger[aria-expanded="true"] span:nth-child(1){
+      transform:translateY(7px) rotate(45deg);
+    }
+    .hamburger[aria-expanded="true"] span:nth-child(2){
+      opacity:0;
+      transform:scaleX(0);
+    }
+    .hamburger[aria-expanded="true"] span:nth-child(3){
+      transform:translateY(-7px) rotate(-45deg);
+    }
+
+    .mobile-nav-overlay{
+      display:none;
+      position:fixed;
+      top:72px;
+      left:0;
+      right:0;
+      bottom:0;
+      z-index:45;
+      background:rgba(17,17,15,.97);
+      backdrop-filter:blur(20px);
+      overflow-y:auto;
+      flex-direction:column;
+    }
+    .mobile-nav-overlay.open{ display:flex; }
+    .mobile-nav-links{
+      display:flex;
+      flex-direction:column;
+      padding:16px 20px;
+      gap:4px;
+      flex:1;
+    }
+    .mobile-nav-links a{
+      display:flex;
+      align-items:center;
+      padding:20px 16px;
+      border:1px solid transparent;
+      border-radius:var(--radius);
+      color:var(--soft);
+      font-size:22px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:0;
+      transition:background .12s ease, border-color .12s ease, color .12s ease;
+    }
+    .mobile-nav-links a:hover{
+      color:var(--text);
+      background:rgba(255,255,255,.04);
+      border-color:var(--line);
+    }
+    .mobile-nav-cta{
+      padding:16px 20px 24px;
+      border-top:1px solid var(--line);
+    }
+
+    body.nav-open{ overflow:hidden; }
+
     :focus-visible{
       outline:3px solid rgba(216,164,81,.66);
       outline-offset:3px;
@@ -724,6 +805,8 @@
       .wrap,
       .hero-grid{ width:min(100% - 32px, var(--max)); }
       .nav{ display:none; }
+      .hamburger{ display:flex; }
+      .topbar .btn{ display:none; }
       .hero{
         min-height:auto;
         max-height:none;
@@ -757,7 +840,7 @@
       .wrap,
       .hero-grid{ width:min(100% - 24px, var(--max)); }
       .topbar-inner{ min-height:64px; }
-      .topbar .btn{ display:none; }
+      .mobile-nav-overlay{ top:64px; }
       .hero{ padding-top:58px; }
       h1{ font-size:44px; }
       .lead{ font-size:17px; }
@@ -806,6 +889,24 @@
       </nav>
 
       <a class="btn primary" href="#reserve">Запази място</a>
+      <button class="hamburger" aria-label="Меню" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-nav-overlay" id="mobile-nav" aria-hidden="true" aria-label="Навигация">
+    <nav class="mobile-nav-links">
+      <a href="#session">Формат</a>
+      <a href="#why">Защо</a>
+      <a href="#howareyou">Чек-ин</a>
+      <a href="#info">Детайли</a>
+      <a href="#faq">Въпроси</a>
+    </nav>
+    <div class="mobile-nav-cta">
+      <a class="btn primary full" href="#reserve">Запази място</a>
     </div>
   </div>
 
@@ -1174,6 +1275,28 @@
     pleasantness.addEventListener("input", updateMood);
     intensity.addEventListener("input", updateMood);
     updateMood();
+
+    var hamburger = document.querySelector('.hamburger');
+    var mobileNav = document.getElementById('mobile-nav');
+
+    function toggleNav(open) {
+      hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      mobileNav.setAttribute('aria-hidden', open ? 'false' : 'true');
+      mobileNav.classList.toggle('open', open);
+      document.body.classList.toggle('nav-open', open);
+    }
+
+    hamburger.addEventListener('click', function() {
+      toggleNav(!mobileNav.classList.contains('open'));
+    });
+
+    mobileNav.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() { toggleNav(false); });
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && mobileNav.classList.contains('open')) toggleNav(false);
+    });
 
     var exampleCallback = function() { console.log('Order complete!'); };
 

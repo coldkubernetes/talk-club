@@ -110,6 +110,26 @@
       letter-spacing:0;
     }
 
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:750;
+    }
+    .nav a{
+      padding:10px 12px;
+      border:1px solid transparent;
+      border-radius:6px;
+      white-space:nowrap;
+    }
+    .nav a:hover{
+      color:var(--text);
+      border-color:var(--line);
+      background:rgba(255,255,255,.035);
+    }
+
     .btn{
       min-height:44px;
       display:inline-flex;
@@ -132,15 +152,107 @@
       background:#25241f;
       border-color:rgba(216,164,81,.54);
     }
+    .btn.primary{
+      color:#16120d;
+      background:linear-gradient(135deg, var(--brass), #c5723f);
+      border-color:rgba(255,255,255,.08);
+      box-shadow:0 14px 42px rgba(184,95,50,.28);
+    }
+    .btn.primary:hover{
+      color:#16120d;
+      filter:brightness(1.05);
+    }
     .btn.ghost{
       background:transparent;
       border-color:var(--line);
     }
+    .btn.full{ width:100%; }
     .btn.sm{
       min-height:36px;
       padding:7px 13px;
       font-size:13px;
     }
+
+    .hamburger{
+      display:none;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      width:44px;
+      height:44px;
+      background:transparent;
+      border:1px solid var(--line-strong);
+      border-radius:6px;
+      cursor:pointer;
+      padding:0;
+      gap:5px;
+      flex-shrink:0;
+    }
+    .hamburger span{
+      display:block;
+      width:20px;
+      height:2px;
+      background:var(--text);
+      border-radius:2px;
+      transition:transform .22s ease, opacity .18s ease;
+      transform-origin:center;
+    }
+    .hamburger[aria-expanded="true"] span:nth-child(1){
+      transform:translateY(7px) rotate(45deg);
+    }
+    .hamburger[aria-expanded="true"] span:nth-child(2){
+      opacity:0;
+      transform:scaleX(0);
+    }
+    .hamburger[aria-expanded="true"] span:nth-child(3){
+      transform:translateY(-7px) rotate(-45deg);
+    }
+
+    .mobile-nav-overlay{
+      display:none;
+      position:fixed;
+      top:72px;
+      left:0;
+      right:0;
+      bottom:0;
+      z-index:45;
+      background:rgba(17,17,15,.97);
+      backdrop-filter:blur(20px);
+      overflow-y:auto;
+      flex-direction:column;
+    }
+    .mobile-nav-overlay.open{ display:flex; }
+    .mobile-nav-links{
+      display:flex;
+      flex-direction:column;
+      padding:16px 20px;
+      gap:4px;
+      flex:1;
+    }
+    .mobile-nav-links a{
+      display:flex;
+      align-items:center;
+      padding:20px 16px;
+      border:1px solid transparent;
+      border-radius:var(--radius);
+      color:var(--soft);
+      font-size:22px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:0;
+      transition:background .12s ease, border-color .12s ease, color .12s ease;
+    }
+    .mobile-nav-links a:hover{
+      color:var(--text);
+      background:rgba(255,255,255,.04);
+      border-color:var(--line);
+    }
+    .mobile-nav-cta{
+      padding:16px 20px 24px;
+      border-top:1px solid var(--line);
+    }
+
+    body.nav-open{ overflow:hidden; }
 
     .eyebrow{
       display:inline-flex;
@@ -284,12 +396,16 @@
       justify-content:space-between;
       gap:18px;
       flex-wrap:wrap;
-      align-items:center;
     }
     .footer-links{
       display:flex;
       gap:14px;
       flex-wrap:wrap;
+    }
+    .footer-attr{
+      margin-top:12px;
+      color:var(--muted);
+      opacity:.6;
     }
 
     :focus-visible{
@@ -298,6 +414,9 @@
     }
 
     @media (max-width: 980px){
+      .nav{ display:none; }
+      .hamburger{ display:flex; }
+      .topbar .btn{ display:none; }
       .page-hero h1{ font-size:54px; }
       .section-title{ font-size:30px; }
     }
@@ -305,12 +424,12 @@
     @media (max-width: 680px){
       .topbar-inner{ width:min(100% - 24px, var(--max)); min-height:64px; }
       .wrap{ width:min(100% - 24px, var(--max)); }
+      .mobile-nav-overlay{ top:64px; }
       .page-hero{ padding:60px 0 40px; }
       .page-hero h1{ font-size:38px; }
       .page-hero .lead{ font-size:17px; }
       .media-grid{ grid-template-columns:1fr; }
       section{ padding:42px 0; }
-      .topbar-inner .btn.ghost{ display:none; }
     }
   </style>
 </head>
@@ -322,10 +441,36 @@
         <span class="brand-mark" aria-hidden="true"></span>
         <span>Talk Club</span>
       </a>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <a class="btn ghost" href="index.html">← Обратно към сайта</a>
-        <a class="btn primary" href="index.html#reserve">Запази място</a>
-      </div>
+
+      <nav class="nav" aria-label="Навигация">
+        <a href="index.html#session">Формат</a>
+        <a href="index.html#why">Защо</a>
+        <a href="index.html#howareyou">Чек-ин</a>
+        <a href="index.html#info">Детайли</a>
+        <a href="index.html#faq">Въпроси</a>
+        <a href="media.html">Медии</a>
+      </nav>
+
+      <a class="btn primary" href="index.html#reserve">Запази място</a>
+      <button class="hamburger" aria-label="Меню" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-nav-overlay" id="mobile-nav" aria-hidden="true" aria-label="Навигация">
+    <nav class="mobile-nav-links">
+      <a href="index.html#session">Формат</a>
+      <a href="index.html#why">Защо</a>
+      <a href="index.html#howareyou">Чек-ин</a>
+      <a href="index.html#info">Детайли</a>
+      <a href="index.html#faq">Въпроси</a>
+      <a href="media.html">Медии</a>
+    </nav>
+    <div class="mobile-nav-cta">
+      <a class="btn primary full" href="index.html#reserve">Запази място</a>
     </div>
   </div>
 
@@ -436,15 +581,39 @@
       <div class="footer-line">
         <div>© <span id="year"></span> Talk Club</div>
         <div class="footer-links">
-          <a href="index.html">← Talk Club</a>
           <a href="index.html#reserve">Запази място</a>
+          <a href="index.html#howareyou">Как си?</a>
+          <a href="https://talk-club.eventbrite.com/" target="_blank" rel="noopener noreferrer">Eventbrite</a>
         </div>
       </div>
+      <div class="footer-attr">С благодарност към <a href="https://talkclub.org" target="_blank" rel="noopener noreferrer">Talk Club UK</a> за методологията, обучителните ресурси и разрешението да развиваме Talk Club срещи в България.</div>
     </footer>
   </main>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    var hamburger = document.querySelector('.hamburger');
+    var mobileNav = document.getElementById('mobile-nav');
+
+    function toggleNav(open) {
+      hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      mobileNav.setAttribute('aria-hidden', open ? 'false' : 'true');
+      mobileNav.classList.toggle('open', open);
+      document.body.classList.toggle('nav-open', open);
+    }
+
+    hamburger.addEventListener('click', function() {
+      toggleNav(!mobileNav.classList.contains('open'));
+    });
+
+    mobileNav.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() { toggleNav(false); });
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && mobileNav.classList.contains('open')) toggleNav(false);
+    });
   </script>
 </body>
 </html>
